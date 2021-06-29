@@ -6,12 +6,14 @@ import { setRandomVariation } from './library/setRandomVariation';
 import { showVariation } from './library/showVariation';
 
 export function mountAbTesting() {
-  if (sessionClient.getPageView() !== CONSTANTS.Performed) {
-    sessionClient.setPageView();
-    analyticsClient.trackPageview({ url: window.location.href });
+  if (
+    sessionClient.getPageView(window.location.pathname) !== CONSTANTS.Performed
+  ) {
+    sessionClient.setPageView(window.location.pathname);
+    analyticsClient.trackPageview(window.location.pathname);
   } else {
     console.log(
-      `TRACK:PageView already performed by user during this session.`
+      `--> DEBUG: TRACK:${window.location.pathname} already performed by user during this session.`
     );
   }
 
@@ -28,5 +30,5 @@ export function mountAbTesting() {
 
   showVariation(variationNodes);
 
-  console.log(`Variation selected: ${sessionClient.getVariation()}`);
+  console.log(`--> DEBUG: Variation selected: ${sessionClient.getVariation()}`);
 }

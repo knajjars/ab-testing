@@ -10,12 +10,12 @@ class Analytics {
 
   trackEvent(variation, track, metric) {
     console.log(
-      `--> Variation: ${variation}, Track: ${track}, Metric: ${metric}`
+      `--> DEBUG: TrackEvent Variation: ${variation}, Track: ${track}, Metric: ${metric}`
     );
   }
 
-  trackPageview(params) {
-    console.log(`--> Pageview URL: ${params.url}`);
+  trackPageview(pathname) {
+    console.log(`--> DEBUG: Pageview URL: ${pathname}`);
   }
 }
 

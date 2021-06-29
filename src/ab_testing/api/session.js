@@ -9,12 +9,12 @@ class Session {
     Object.freeze(this);
     Session.instance = this;
   }
-  setPageView() {
-    sessionStorage.setItem(CONSTANTS.PageView, CONSTANTS.Performed);
+  setPageView(page) {
+    sessionStorage.setItem(this._getPathKey(page), CONSTANTS.Performed);
   }
 
-  getPageView() {
-    return sessionStorage.getItem(CONSTANTS.PageView);
+  getPageView(page) {
+    return sessionStorage.getItem(this._getPathKey(page));
   }
 
   setVariation(value) {
@@ -31,6 +31,10 @@ class Session {
 
   getMetricPerformed(metric) {
     return sessionStorage.getItem(metric);
+  }
+
+  _getPathKey(path) {
+    return `visited-path-${path}`;
   }
 }
 const sessionClient = new Session();

@@ -14,7 +14,7 @@ export function mapVariations(variationNodes) {
         e.stopPropagation();
         if (sessionClient.getMetricPerformed(metric) === CONSTANTS.Performed) {
           console.log(
-            `TRACK:Metric "${metric}" already performed by user during this session.`
+            `--> DEBUG: TRACK:Metric "${metric}" already performed by user during this session.`
           );
           return;
         }
@@ -29,7 +29,7 @@ export function mapVariations(variationNodes) {
       variationNodes.test.push(node);
     } else {
       console.warn(
-        `Unsupported variation type, only "${CONSTANTS.Control}" and "${CONSTANTS.Test}" types are allowed but found "${variation}"`
+        `--> WARNING: Unsupported variation type, only "${CONSTANTS.Control}" and "${CONSTANTS.Test}" types are allowed but found "${variation}"`
       );
     }
   });
