@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  height: 100vh;
+
+  box-sizing: border-box;
+  font-family: 'Roboto', 'Sans-serif';
+  background-color: whitesmoke;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.card {
+  margin: 1rem;
+  width: 500px;
+  height: 600px;
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px 4px rgba(black, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  // VARIATION STYLING
+  & p.control {
+    color: rgb(115, 21, 192);
+    font-size: 2rem;
+    font-weight: bolder;
+    background: linear-gradient(to top, yellow 50%, transparent 50%);
+  }
+
+  & p.test {
+    color: rgb(14, 182, 132);
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+
+  & a.control {
+    color: rgb(115, 21, 192);
+    font-weight: bolder;
+    font-size: 1.2rem;
+  }
+
+  & a.test {
+    color: rgb(14, 182, 132);
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+  }
+}
+
+p {
+  margin-top: 1rem;
+  color: #484848;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #2574a9;
+}
