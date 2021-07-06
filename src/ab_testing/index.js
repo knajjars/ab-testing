@@ -17,17 +17,9 @@ export function mountAbTesting() {
     );
   }
 
-  const variationNodes = {
-    control: [],
-    test: [],
-  };
-
+  const variationNodes = {};
   mapVariations(variationNodes);
-
-  if (sessionClient.getVariation() === null) {
-    setRandomVariation(variationNodes);
-  }
-
+  setRandomVariation(variationNodes);
   showVariation(variationNodes);
 
   console.log(`--> DEBUG: Variation selected: ${sessionClient.getVariation()}`);

@@ -14,8 +14,17 @@
           src="images/hero_image.jpg"
           alt="Check out the Reading"
         />
-        <p data-variation="control" class="control">Recommended for you</p>
-        <p data-variation="test" class="test">Check this article!</p>
+        <p
+          data-variation="control"
+          data-test="paragraph"
+          data-weight="90"
+          class="control"
+        >
+          Recommended for you
+        </p>
+        <p data-variation="test" data-test="paragraph" class="test">
+          Check this article!
+        </p>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -32,6 +41,8 @@
             data-variation="control"
             data-track="click"
             data-metric="signup"
+            data-test="buttons"
+            data-weight="90"
             class="control"
           >
             Get Started Now
@@ -41,6 +52,7 @@
             data-variation="test"
             data-track="click"
             data-metric="signup"
+            data-test="buttons"
             class="test"
           >
             Sign Up

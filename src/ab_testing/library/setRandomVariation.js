@@ -1,8 +1,25 @@
 import { sessionClient } from '../api/session';
+import { CONSTANTS } from '../constants';
 
 export function setRandomVariation(variationNodes) {
-  const keys = Object.keys(variationNodes);
-  const variation = keys[Math.floor(Math.random() * keys.length)];
+  const tests = Object.keys(variationNodes);
 
-  sessionClient.setVariation(variation);
+  tests.forEach((test) => {
+    variationNodes[test].control.forEach((node) => {
+      const { weight, variation: nodeVariation, test } = node.dataset;
+
+      if (sessionClient.getVariation(test) !== null) {
+        return;
+      }
+
+      let variation = nodeVariation;
+      const rollResult = Math.random() * 100;
+
+      if (rollResult > weight) {
+        variation =
+          nodeVariation === CONSTANTS.Test ? CONSTANTS.Control : CONSTANTS.Test;
+      }
+      sessionClient.setVariation(test, variation);
+    });
+  });
 }

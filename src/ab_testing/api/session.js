@@ -17,12 +17,11 @@ class Session {
     return sessionStorage.getItem(this._getPathKey(page));
   }
 
-  setVariation(value) {
-    sessionStorage.setItem(CONSTANTS.Variation, value);
+  setVariation(test, variation) {
+    sessionStorage.setItem(test, variation);
   }
-
-  getVariation() {
-    return sessionStorage.getItem(CONSTANTS.Variation);
+  getVariation(test) {
+    return sessionStorage.getItem(test);
   }
 
   setMetricPerformed(metric) {
