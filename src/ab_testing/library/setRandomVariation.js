@@ -1,4 +1,4 @@
-import { sessionClient } from '../api/session';
+import { storageClient } from '../api/storage';
 import { CONSTANTS } from '../constants';
 
 export function setRandomVariation(variationNodes) {
@@ -8,7 +8,7 @@ export function setRandomVariation(variationNodes) {
     variationNodes[test].control.forEach((node) => {
       const { weight, variation: nodeVariation, test } = node.dataset;
 
-      if (sessionClient.getVariation(test) !== null) {
+      if (storageClient.getVariation(test) !== null) {
         return;
       }
 
@@ -19,7 +19,11 @@ export function setRandomVariation(variationNodes) {
         variation =
           nodeVariation === CONSTANTS.Test ? CONSTANTS.Control : CONSTANTS.Test;
       }
-      sessionClient.setVariation(test, variation);
+      storageClient.setVariation(test, variation);
+
+      console.log(
+        `--> DEBUG: Variation selected: Test: ${test}, Variation: ${variation}`
+      );
     });
   });
 }

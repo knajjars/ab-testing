@@ -8,9 +8,10 @@ class Analytics {
     Analytics.instance = this;
   }
 
-  trackEvent(variation, track, metric) {
+  trackEvent(node) {
+    const { variation, track, metric, test } = node.dataset;
     console.log(
-      `--> DEBUG: TrackEvent Variation: ${variation}, Track: ${track}, Metric: ${metric}`
+      `--> DEBUG: TrackEvent Variation: ${variation}, Track: ${track}, Metric: ${metric}, Test: ${test}`
     );
   }
 

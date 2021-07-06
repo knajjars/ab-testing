@@ -1,5 +1,5 @@
 import { analyticsClient } from '../api/analytics';
-import { sessionClient } from '../api/session';
+import { storageClient } from '../api/storage';
 import { CONSTANTS } from '../constants';
 
 export function mapVariations(variationNodes) {
@@ -12,14 +12,14 @@ export function mapVariations(variationNodes) {
       node.addEventListener(track, (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (sessionClient.getMetricPerformed(metric) === CONSTANTS.Performed) {
+        if (storageClient.getMetricPerformed(metric) === CONSTANTS.Performed) {
           console.log(
             `--> DEBUG: TRACK:Metric "${metric}" already performed by user during this session.`
           );
           return;
         }
-        sessionClient.setMetricPerformed(metric);
-        analyticsClient.trackEvent(variation, track, metric);
+        storageClient.setMetricPerformed(metric);
+        analyticsClient.trackEvent(node);
       });
     }
 

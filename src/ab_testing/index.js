@@ -1,5 +1,5 @@
 import { analyticsClient } from './api/analytics';
-import { sessionClient } from './api/session';
+import { storageClient } from './api/storage';
 import { CONSTANTS } from './constants';
 import { mapVariations } from './library/mapVariations';
 import { setRandomVariation } from './library/setRandomVariation';
@@ -7,9 +7,9 @@ import { showVariation } from './library/showVariation';
 
 export function mountAbTesting() {
   if (
-    sessionClient.getPageView(window.location.pathname) !== CONSTANTS.Performed
+    storageClient.getPageView(window.location.pathname) !== CONSTANTS.Performed
   ) {
-    sessionClient.setPageView(window.location.pathname);
+    storageClient.setPageView(window.location.pathname);
     analyticsClient.trackPageview(window.location.pathname);
   } else {
     console.log(
@@ -21,6 +21,4 @@ export function mountAbTesting() {
   mapVariations(variationNodes);
   setRandomVariation(variationNodes);
   showVariation(variationNodes);
-
-  console.log(`--> DEBUG: Variation selected: ${sessionClient.getVariation()}`);
 }
