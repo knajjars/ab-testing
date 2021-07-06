@@ -392,23 +392,35 @@ function setRandomVariation(variationNodes) {
           weight = _node$dataset.weight,
           nodeVariation = _node$dataset.variation,
           test = _node$dataset.test;
+      var variation;
+      var hasWeight = typeof weight !== 'undefined';
 
       if (_storage.storageClient.getVariation(test) !== null) {
         return;
       }
 
-      var variation = nodeVariation;
       var rollResult = Math.random() * 100;
-
-      if (rollResult > weight) {
-        variation = nodeVariation === _constants.CONSTANTS.Test ? _constants.CONSTANTS.Control : _constants.CONSTANTS.Test;
-      }
+      variation = hasWeight ? getWeightRoll(rollResult, weight, nodeVariation) : getDefaultRoll(rollResult);
 
       _storage.storageClient.setVariation(test, variation);
 
       console.log("--> DEBUG: Variation selected: Test: ".concat(test, ", Variation: ").concat(variation));
     });
   });
+}
+
+function getWeightRoll(rollResult, weight, nodeVariation) {
+  var variation = nodeVariation;
+
+  if (rollResult > weight) {
+    variation = nodeVariation === _constants.CONSTANTS.Test ? _constants.CONSTANTS.Control : _constants.CONSTANTS.Test;
+  }
+
+  return variation;
+}
+
+function getDefaultRoll(rollResult) {
+  return rollResult > 50 ? _constants.CONSTANTS.Control : _constants.CONSTANTS.Test;
 }
 },{"../api/storage":"ab_testing/api/storage.js","../constants":"ab_testing/constants.js"}],"ab_testing/library/showVariation.js":[function(require,module,exports) {
 "use strict";
