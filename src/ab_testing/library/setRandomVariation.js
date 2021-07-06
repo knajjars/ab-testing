@@ -8,22 +8,37 @@ export function setRandomVariation(variationNodes) {
     variationNodes[test].control.forEach((node) => {
       const { weight, variation: nodeVariation, test } = node.dataset;
 
+      let variation;
+      const hasWeight = typeof weight !== 'undefined';
+
       if (storageClient.getVariation(test) !== null) {
         return;
       }
 
-      let variation = nodeVariation;
       const rollResult = Math.random() * 100;
 
-      if (rollResult > weight) {
-        variation =
-          nodeVariation === CONSTANTS.Test ? CONSTANTS.Control : CONSTANTS.Test;
-      }
-      storageClient.setVariation(test, variation);
+      variation = hasWeight
+        ? getWeightRoll(rollResult, weight, nodeVariation)
+        : getDefaultRoll(rollResult);
 
+      storageClient.setVariation(test, variation);
       console.log(
         `--> DEBUG: Variation selected: Test: ${test}, Variation: ${variation}`
       );
     });
   });
+}
+
+function getWeightRoll(rollResult, weight, nodeVariation) {
+  let variation = nodeVariation;
+  if (rollResult > weight) {
+    variation =
+      nodeVariation === CONSTANTS.Test ? CONSTANTS.Control : CONSTANTS.Test;
+  }
+
+  return variation;
+}
+
+function getDefaultRoll(rollResult) {
+  return rollResult > 50 ? CONSTANTS.Control : CONSTANTS.Test;
 }
