@@ -1,36 +1,34 @@
 import { analyticsClient } from '../api/analytics';
-import { sessionClient } from '../api/session';
+import { storageClient } from '../api/storage';
 import { CONSTANTS } from '../constants';
 
 export function mapVariations(variationNodes) {
-  document.querySelectorAll('[data-variation]').forEach((node) => {
+  document.querySelectorAll('[data-test]').forEach((node) => {
     node.style.display = 'none';
 
-    const { variation, track, metric } = node.dataset;
+    const { variation, track, metric, test } = node.dataset;
 
     if (typeof track !== 'undefined') {
       node.addEventListener(track, (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (sessionClient.getMetricPerformed(metric) === CONSTANTS.Performed) {
+        if (storageClient.getMetricPerformed(metric) === CONSTANTS.Performed) {
           console.log(
             `--> DEBUG: TRACK:Metric "${metric}" already performed by user during this session.`
           );
           return;
         }
-        sessionClient.setMetricPerformed(metric);
-        analyticsClient.trackEvent(variation, track, metric);
+        storageClient.setMetricPerformed(metric);
+        analyticsClient.trackEvent(node);
       });
     }
 
-    if (variation === CONSTANTS.Control) {
-      variationNodes.control.push(node);
-    } else if (variation === CONSTANTS.Test) {
-      variationNodes.test.push(node);
-    } else {
-      console.warn(
-        `--> WARNING: Unsupported variation type, only "${CONSTANTS.Control}" and "${CONSTANTS.Test}" types are allowed but found "${variation}"`
-      );
+    if (typeof variationNodes[test] === 'undefined') {
+      variationNodes[test] = {
+        control: [],
+        test: [],
+      };
     }
+    variationNodes[test][variation].push(node);
   });
 }

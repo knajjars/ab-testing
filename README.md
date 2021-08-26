@@ -31,7 +31,7 @@ mountAbTesting()
 * `Analyze` all variants in the document by selecting all elements with the data-variant attrbiute.
 * It will `hide` them all
 * Register all `track events` for the metrics configured (for example: signup click)
-* `Select a random` variant, either control or test
+* `Select a random` variant based on the weight (default to 50/50) `per test group`, either control or test
 * `Assign the variant` for the session, so the variant is persisted on page reloads or redirects, although if the window is closed the session expires.
 * `Display` the randomly selected variant
 
@@ -42,7 +42,19 @@ Now in the **HTML** we can use the `data attribute` on the elements to identify 
 
   
 
-1. The type of variant is assigned with the data-variant attribute, available options are: `control` and `test`
+1. The `test` attribute is used to group the test-cases that you want to run A/B testing on. Every test group will run independantly from the others, set it by utilizing the `data-test` attribute.
+
+```html
+
+<p data-test="flat-design">Some text</p>
+<p data-test="retro-design">Other text</p>
+
+<button data-test="flat-design">Some button</button>
+<button data-test="retro-design">Another button</button>
+
+```
+
+2. The type of variant is assigned with the data-variant attribute, available options are: `control` and `test`
 
 ```html
 
@@ -51,7 +63,7 @@ Now in the **HTML** we can use the `data attribute` on the elements to identify 
 
 ```
 
-2. To register an event on a user action like `click` or `mouseover`. You simply need to add a data attribute and set the value to which action you want to track
+3. To register an event on a user action like `click` or `mouseover`. You simply need to add a data attribute and set the value to which action you want to track
 
 ```html
 
@@ -59,13 +71,19 @@ Now in the **HTML** we can use the `data attribute` on the elements to identify 
 <p data-track="mourseover">Hover me!</p>
 
 ```
-  3. Lastly, to understand what metric is being tracked you need to add the `data-metric` attribute to the element. This will also help collect more precise data by not tracking the same action more than once when performed in the same session.
+4. To understand what metric is being tracked you need to add the `data-metric` attribute to the element. This will also help collect more precise data by not tracking the same action more than once when performed in the same session.
 
 ```html
 <a href="/signup" data-metric="signup">Sign up!</a>
 <a href="/learn-more" data-metric="learn_more">Learn more!</a>
 ```
   
+5. Lastly, you can set the weight of the control variant with `data-weight`, this is based on a scale from 0-100. It is a helpful attribute especially for those cases that you consider the test variant could be a bit risky to display for 50% of the visits. 
+**Note:** the weight can only be applied to the control variant and the test variant will be remaining value to reach 100.
+
+```html
+<button data-variant="control" data-weight="60">A button</button>
+```
 
 ### With all data attributes it may look something like this
 
@@ -75,13 +93,15 @@ Now in the **HTML** we can use the `data attribute` on the elements to identify 
 
 ```html
 
-<button data-variant="control" data-track="click" data-metric="about" class="control-button">
+<button data-test="original-design" data-variant="control" data-weight="70" data-track="click" data-metric="about" class="control-button">
 	Learn about us
 <button>
 
   
-<button data-variant="test" data-track="click" data-metric="about" class="test-button">
+<button data-test="original-design" data-variant="test" data-track="click" data-metric="about" class="test-button">
 	Want to know more about us?
 <button>
 
 ```
+
+In the example above we are testing a button inside the `test case` original-design. For these buttons 70% of the visits will see the control variant because the `weight` was set to 70. Also it will `track click` events for the metric `about`.
